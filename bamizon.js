@@ -10,7 +10,7 @@ let connection = mysql.createConnection({
 
   // Your password
   password: "honeybees",
-  database: "bamizonDB"
+  database: "bamizondb"
 });
 
 connection.connect(function(err) {
@@ -19,32 +19,119 @@ connection.connect(function(err) {
   welcome();
 });
 
-
-function readProducts() {
+//welcomes and lists items
+function welcome() {
+	console.log("Welcome to BAMizon! \n")
   console.log("Here are all the items we have today:\n");
   connection.query("SELECT * FROM items", function(err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
-    console.log(res);
+    for (let i = 0; i <res.length; i ++){
+    	console.log("Product ID: " + res[i].id);
+    	console.log("Product: " + res[i].product_name);
+    	console.log("Price: " + res[i].price);
+    	console.log("Quantity: " + res[i].quantity);
+    	console.log("======================================");
+    }
+    askUser();
+  });
+}
+
+function askUser(){
+	inquirer.prompt([
+	{
+		type:"input",
+		message: "What Item ID are you interested in?\n",
+		name: "itemid",
+		validate: function(input){
+			if(isNaN(input)){
+				console.log(" Please enter a number.")
+			}else{
+				return true
+			}
+		}
+	},
+	{
+		type:"input",
+		message: "How many would you like? \n",
+		name: "itemquant",
+		validate: function(input){
+			if(isNaN(input)){
+				console.log(" Please enter a number.")
+			}else{
+				return true
+			}
+		}
+	}
+	]).then(function(answers){
+		let item = answers.itemid;
+		let quant = answers.itemquant;
+		console.log(`Item ID: ${item} Quantity: ${quant}`);
+		selectProducts(item,quant);
+	})
+}
+
+function selectProducts(id,quant) {
+  console.log("Selecting all products...\n");
+  connection.query(`SELECT * FROM items WHERE id = ${id}`, function(err, res) {
+    if (err) throw err;
+
+    	//determines if there are enough in stock
+    if(quant>res[0].quantity){
+    	console.log("Insufficient Quantity!");
+    	askUser();
+    }else{
+    	//updates quantity
+    	let updatedQuant = (res[0].quantity) - (parseInt(quant));
+    	updateQuant(id, updatedQuant);
+
+    	//displays how  much total will be to customer
+    	let total = (parseInt(quant)*(res[0].price));
+    	console.log(`That will be $ ${total}`);
+    	anotherPurch();
+    }
   });
 }
 
 
-function createProduct() {
-  console.log("Adding product");
-  let query = connection.query(
-    "INSERT INTO items SET ?",
-    {
-      product_name: "Rocky Road",
-      department_name: "",
-      price: 3.0,
-      quantity: 50
-    },
+//function that updates DB quantity
+function updateQuant(id,quant) {
+  var query = connection.query(
+    "UPDATE items SET ? WHERE ?",
+    [
+      {
+        quantity: quant  
+      },
+      {
+        id: id
+      }
+    ],
     function(err, res) {
-      console.log(res.affectedRows + " product inserted!\n");
     }
   );
-
-  // logs the actual query being run
-  console.log(query.sql);
 }
+
+//prompts user if they would like to make another purchase
+function anotherPurch(){
+	inquirer.prompt([
+		{
+			type:"checkbox",
+			message:`Would you like to play again?`,
+			choices:["Yes.","No thanks."],
+			name: "replay",
+			validate: function(input){
+				if(input.length>1){
+					console.log(" Please enter one choice.");
+				}else{
+					return true;
+				};
+			}
+		}
+	]).then(function(answers){
+		if(answers.replay[0] ==="Yes."){
+			welcome();
+		}else if(answers.replay[0] === "No thanks."){
+			return false
+		};
+	});
+};
