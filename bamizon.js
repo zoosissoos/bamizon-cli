@@ -15,14 +15,16 @@ let connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  console.log("connected as id " + connection.threadId + "\n");
+  console.log("connected as id " + connection.threadId + "\r\n");
   welcome();
 });
 
 //welcomes and lists items
 function welcome() {
-	console.log("Welcome to BAMizon! \n")
-  console.log("Here are all the items we have today:\n");
+	console.log("======================================\r\n");
+	console.log("Welcome to BAMizon! \r\n")
+  console.log("Here are all the items we have today:\r\n");
+  console.log("======================================\r\n");
   connection.query("SELECT * FROM items", function(err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
@@ -41,7 +43,7 @@ function askUser(){
 	inquirer.prompt([
 	{
 		type:"input",
-		message: "What Item ID are you interested in?\n",
+		message: "What Item ID are you interested in?\r\n",
 		name: "itemid",
 		validate: function(input){
 			if(isNaN(input)){
@@ -53,7 +55,7 @@ function askUser(){
 	},
 	{
 		type:"input",
-		message: "How many would you like? \n",
+		message: "How many would you like? \r\n",
 		name: "itemquant",
 		validate: function(input){
 			if(isNaN(input)){
@@ -73,7 +75,7 @@ function askUser(){
 
 //selects items
 function selectProducts(id,quant) {
-  console.log("Selecting all products...\n");
+  console.log("Selecting all products...\r\n");
   connection.query(`SELECT * FROM items WHERE id = ${id}`, function(err, res) {
     if (err) throw err;
 
@@ -117,13 +119,15 @@ function anotherPurch(){
 	inquirer.prompt([
 		{
 			type:"checkbox",
-			message:`Is there anything else you would like to do?`,
+			message:`Is there anything else you would like to do?\r\n`,
 			choices:["Yes.","No thanks."],
 			name: "another",
 			validate: function(input){
-				if(input.length>1){
+				if(input.length > 1){
 					console.log(" Please enter one choice.");
-				}else{
+				}else if(input.length < 1){
+          console.log(" Please enter a choice.");
+        }else{
 					return true;
 				};
 			}
@@ -132,7 +136,9 @@ function anotherPurch(){
 		if(answers.another[0] ==="Yes."){
 			welcome();
 		}else if(answers.another[0] === "No thanks."){
-			return false
+      connection.end();
+      console.log("Good Bye");
+			return false;
 		};
 	});
 };

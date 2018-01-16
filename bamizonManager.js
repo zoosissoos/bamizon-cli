@@ -32,9 +32,9 @@ function welcomeManage(){
       name: "manageSelect",
       validate: function(input){
         if(input.length>1){
-          console.log(" Please enter one choice.\r\n");
+          console.log("Please enter one choice.");
         }else if(input.length<1){
-          console.log(" Please enter a choice.\r\n");
+          console.log("Please enter a choice.");
         }else{
           return true;
         };
@@ -236,9 +236,9 @@ function another(){
       choices:["Yes.","No thanks."],
       name: "another",
       validate: function(input){
-        if(input.length>1){
+        if(input.length > 1){
           console.log(" Please enter one choice.\r\n");
-        }else if(input.length<1){
+        }else if(input.length < 1){
           console.log(" Please enter a choice.\r\n");
         }else{
           return true;
@@ -249,6 +249,8 @@ function another(){
     if(answers.another[0] ==="Yes."){
       welcomeManage();
     }else if(answers.another[0] === "No thanks."){
+      connection.end();
+      console.log("Good Bye");
       return false
     };
   });
