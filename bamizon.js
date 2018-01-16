@@ -71,6 +71,7 @@ function askUser(){
 	})
 }
 
+//selects items
 function selectProducts(id,quant) {
   console.log("Selecting all products...\n");
   connection.query(`SELECT * FROM items WHERE id = ${id}`, function(err, res) {
@@ -107,8 +108,8 @@ function updateQuant(id,quant) {
       }
     ],
     function(err, res) {
-    }
-  );
+    	if (err) throw err;
+    });
 }
 
 //prompts user if they would like to make another purchase
@@ -116,9 +117,9 @@ function anotherPurch(){
 	inquirer.prompt([
 		{
 			type:"checkbox",
-			message:`Would you like to play again?`,
+			message:`Is there anything else you would like to do?`,
 			choices:["Yes.","No thanks."],
-			name: "replay",
+			name: "another",
 			validate: function(input){
 				if(input.length>1){
 					console.log(" Please enter one choice.");
@@ -128,9 +129,9 @@ function anotherPurch(){
 			}
 		}
 	]).then(function(answers){
-		if(answers.replay[0] ==="Yes."){
+		if(answers.another[0] ==="Yes."){
 			welcome();
-		}else if(answers.replay[0] === "No thanks."){
+		}else if(answers.another[0] === "No thanks."){
 			return false
 		};
 	});
