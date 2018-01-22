@@ -1,6 +1,31 @@
 # bamizon-cli
-This is a storefront-like CLI using node.js
 
-This was a homework assignment for the Rutgers Coding Bootcamp.
 
-uses Inquirer and mysql npms
+###Bamizon
+
+##This is a storefront-like CLI using node.js
+
+##There are two interfaces:
+    #-bamizon.js
+      -This CLI is for the customer side
+    #-bamizonManager.js
+      -This CLI is for the store owner.
+
+
+[![](./readmeimages/start.PNG)]
+
+Above is the interface for bamizon.js.
+
+
+[![](./readmeimages/order.PNG)]
+
+You must order by item ID.
+
+[![](./readmeimages/managersselect.PNG)]
+
+This is the manager selection page.
+Here you can:
+  -View inventory
+  -View Low inventory
+  -Add inventory to items by id
+  -add a new item to the store
