@@ -1,9 +1,6 @@
 # bamizon-cli
 
-
-### Bamizon
-
-## This is a storefront-like CLI using node.js
+ This is a storefront-like CLI using node.js
 
 ## There are two interfaces:
     - bamizon.js
@@ -31,6 +28,6 @@ Here you can:
   -add a new item to the store
 
 
-  ## You must have these NPMs:
+  ## You must have these NPMs installed:
   -inquirer
   -mysql
