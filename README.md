@@ -22,12 +22,14 @@ You must order by item ID.
 
 This is the manager selection page.
 Here you can:
-  -View inventory
-  -View Low inventory
-  -Add inventory to items by id
-  -add a new item to the store
+  1. View inventory
+  2. View Low inventory
+  3. Add inventory to items by id
+  4. add a new item to the store
 
 
   ## You must have these NPMs installed:
-  -inquirer
-  -mysql
+  1. inquirer
+  2. mysql
+
+  You can install these by running for example "npm install inquirer -S" in your terminal
