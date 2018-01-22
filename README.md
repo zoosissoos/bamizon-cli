@@ -1,27 +1,27 @@
 # bamizon-cli
 
 
-###Bamizon
+### Bamizon
 
-##This is a storefront-like CLI using node.js
+## This is a storefront-like CLI using node.js
 
-##There are two interfaces:
-    #-bamizon.js
-      -This CLI is for the customer side
-    #-bamizonManager.js
-      -This CLI is for the store owner.
+## There are two interfaces:
+    - bamizon.js
+      - This CLI is for the customer side
+    - bamizonManager.js
+      - This CLI is for the store owner.
 
 
-[![](./readmeimages/start.PNG)]
+![](./readmeimages/start.PNG)
 
 Above is the interface for bamizon.js.
 
 
-[![](./readmeimages/order.PNG)]
+![](./readmeimages/order.PNG)
 
 You must order by item ID.
 
-[![](./readmeimages/managersselect.PNG)]
+![](./readmeimages/managerselect.PNG)
 
 This is the manager selection page.
 Here you can:
@@ -29,3 +29,8 @@ Here you can:
   -View Low inventory
   -Add inventory to items by id
   -add a new item to the store
+
+
+  ## You must have these NPMs:
+  -inquirer
+  -mysql
